@@ -1,6 +1,0 @@
-@SpecialtyCoffeeShop_HostAddress = http://localhost:5062
-
-GET {{SpecialtyCoffeeShop_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
