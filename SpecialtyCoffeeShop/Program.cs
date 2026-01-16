@@ -1,20 +1,19 @@
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+using JetBrains.Annotations;
 
+namespace SpecialtyCoffeeShop;
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
-
-WebApplication app = builder.Build();
-
-if (app.Environment.IsDevelopment())
+[UsedImplicitly]
+public class Program
 {
-    app.MapOpenApi();
+    public static void Main(string[] args)
+    {
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args)
+        => Host.CreateDefaultBuilder(args)
+               .ConfigureWebHostDefaults(webBuilder =>
+               {
+                   webBuilder.UseStartup<Startup>();
+               });
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
