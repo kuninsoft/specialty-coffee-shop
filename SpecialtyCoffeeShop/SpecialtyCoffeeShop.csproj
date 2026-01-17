@@ -18,4 +18,8 @@
       <Folder Include="Controllers\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\SpecialtyCoffeeShop.Data\SpecialtyCoffeeShop.Data.csproj" />
+    </ItemGroup>
+
 </Project>

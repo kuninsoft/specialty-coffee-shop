@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using SpecialtyCoffeeShop.Data;
+using SpecialtyCoffeeShop.Data.UnitOfWork;
+
 namespace SpecialtyCoffeeShop;
 
 public class Startup(IConfiguration configuration)
@@ -12,6 +16,14 @@ public class Startup(IConfiguration configuration)
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseInMemoryDatabase(
+                Configuration.GetConnectionString("CoffeeDatabase")
+                ?? throw new InvalidOperationException("Please add CoffeeDatabase connection string to appsettings.json"))
+            );
+        
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

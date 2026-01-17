@@ -11,7 +11,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Products
+        ConfigureProductEntity(modelBuilder);
+        ConfigureProductsOrderDetailEntity(modelBuilder);
+        ConfigureOrderEntity(modelBuilder);
+    }
+
+    private static void ConfigureProductEntity(ModelBuilder modelBuilder)
+    {
         modelBuilder.Entity<Product>()
                     .ToTable(t =>
                     {
@@ -23,9 +29,15 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                             "CK_Product_CurrentDiscount_Valid",
                             $"[{nameof(Product.CurrentDiscount)}] >= 0 " +
                             $"AND [{nameof(Product.CurrentDiscount)}] <= [{nameof(Product.Price)}]");
-                    });
 
-        // ProductOrderDetails
+                        t.HasCheckConstraint(
+                            "CK_Product_Stock_NonNegative", 
+                            $"[{nameof(Product.Stock)}] >= 0");
+                    });
+    }
+
+    private static void ConfigureProductsOrderDetailEntity(ModelBuilder modelBuilder)
+    {
         modelBuilder.Entity<ProductsOrderDetail>()
                     .HasKey(po => new {po.OrderId, po.ProductId});
 
@@ -46,8 +58,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                             "CK_ProductsOrderDetail_Quantity_Positive",
                             $"[{nameof(ProductsOrderDetail.Quantity)}] > 0");
                     });
-        
-        // Orders
+    }
+
+    private static void ConfigureOrderEntity(ModelBuilder modelBuilder)
+    {
         modelBuilder.Entity<Order>()
                     .ToTable(t =>
                     {

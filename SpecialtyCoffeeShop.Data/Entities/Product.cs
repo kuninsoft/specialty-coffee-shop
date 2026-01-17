@@ -12,8 +12,9 @@ public class Product
     [Required, MaxLength(3000)] public string Description { get; set; }
     
     [Required] public decimal Price { get; set; }
-    
     public decimal CurrentDiscount { get; set; }
+
+    [Required] public int Stock { get; set; }
 
     [Required] public Category Category { get; set; }
     
