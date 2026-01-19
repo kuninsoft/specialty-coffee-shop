@@ -1,12 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SpecialtyCoffeeShop.Data;
+using SpecialtyCoffeeShop.Data.Repositories;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
+using SpecialtyCoffeeShop.Services;
 
 namespace SpecialtyCoffeeShop;
 
 public class Startup(IConfiguration configuration)
 {
-    public IConfiguration Configuration { get; set; } = configuration;
+    private IConfiguration Configuration { get; set; } = configuration;
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -24,6 +26,8 @@ public class Startup(IConfiguration configuration)
             );
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddTransient<IProductsService, ProductsService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
