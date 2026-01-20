@@ -37,7 +37,7 @@ public class Startup(IConfiguration configuration)
         services.Configure<AdminCredentials>(Configuration.GetSection("AdminCredentials"));
 
         services.AddDbContext<AppDbContext>(options =>
-            options.UseInMemoryDatabase(
+            options.UseSqlServer(
                 Configuration.GetConnectionString("CoffeeDatabase")
                 ?? throw new InvalidOperationException("Please add CoffeeDatabase connection string to appsettings.json"))
             );

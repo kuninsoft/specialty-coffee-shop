@@ -57,6 +57,8 @@ public class CheckoutService(IUnitOfWork unitOfWork, IPaymentProvider paymentPro
                 });
                 
                 productsByIds[orderItem.Id].Stock -= orderItem.Quantity;
+                
+                unitOfWork.Orders.Add(order);
             }
             
             await unitOfWork.SaveChangesAsync();
