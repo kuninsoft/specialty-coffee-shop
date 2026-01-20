@@ -27,8 +27,8 @@ namespace SpecialtyCoffeeShop.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
-                    table.CheckConstraint("CK_Order_ContactInfo_Valid", "[Email] IS NOT NULLOR [PhoneNumber] IS NOT NULL");
-                    table.CheckConstraint("CK_Order_Email_Valid", "[Email] LIKE '%@%.%'OR [Email] IS NULL");
+                    table.CheckConstraint("CK_Order_ContactInfo_Valid", "[Email] IS NOT NULL OR [PhoneNumber] IS NOT NULL");
+                    table.CheckConstraint("CK_Order_Email_Valid", "[Email] LIKE '%@%.%' OR [Email] IS NULL");
                 });
 
             migrationBuilder.CreateTable(

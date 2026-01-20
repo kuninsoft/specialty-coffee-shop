@@ -67,12 +67,12 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
                     {
                         t.HasCheckConstraint(
                             "CK_Order_Email_Valid",
-                            $"[{nameof(Order.Email)}] LIKE '%@%.%'" +
+                            $"[{nameof(Order.Email)}] LIKE '%@%.%' " +
                             $"OR [{nameof(Order.Email)}] IS NULL");
 
                         t.HasCheckConstraint(
                             "CK_Order_ContactInfo_Valid",
-                            $"[{nameof(Order.Email)}] IS NOT NULL" +
+                            $"[{nameof(Order.Email)}] IS NOT NULL " +
                             $"OR [{nameof(Order.PhoneNumber)}] IS NOT NULL");
                     });
     }

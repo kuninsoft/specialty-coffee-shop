@@ -12,7 +12,7 @@ using SpecialtyCoffeeShop.Data;
 namespace SpecialtyCoffeeShop.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260120151611_Initial")]
+    [Migration("20260120152154_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -68,9 +68,9 @@ namespace SpecialtyCoffeeShop.Data.Migrations
 
                     b.ToTable("Orders", t =>
                         {
-                            t.HasCheckConstraint("CK_Order_ContactInfo_Valid", "[Email] IS NOT NULLOR [PhoneNumber] IS NOT NULL");
+                            t.HasCheckConstraint("CK_Order_ContactInfo_Valid", "[Email] IS NOT NULL OR [PhoneNumber] IS NOT NULL");
 
-                            t.HasCheckConstraint("CK_Order_Email_Valid", "[Email] LIKE '%@%.%'OR [Email] IS NULL");
+                            t.HasCheckConstraint("CK_Order_Email_Valid", "[Email] LIKE '%@%.%' OR [Email] IS NULL");
                         });
                 });
 
