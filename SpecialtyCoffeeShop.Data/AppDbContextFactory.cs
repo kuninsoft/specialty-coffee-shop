@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
 namespace SpecialtyCoffeeShop.Data;
@@ -6,7 +7,11 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        // TODO: Implement
-        throw new NotImplementedException();
+        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
+
+        optionsBuilder.UseSqlServer(
+            "placeholder");
+        
+        return new AppDbContext(optionsBuilder.Options);
     }
 }
