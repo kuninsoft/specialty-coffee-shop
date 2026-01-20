@@ -9,5 +9,5 @@ public interface IProductsService
     Task<ProductDto> GetProductOrDefaultAsync(int id);
     Task AddProductAsync(AddProductDto body, IFormFile image);
     Task UpdateProductAsync(int id, UpdateProductDto body);
-    Task<bool> DeleteProductAsync(int id);
+    Task DeleteProductAsync(int id);
 }

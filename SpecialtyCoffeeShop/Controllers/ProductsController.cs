@@ -22,7 +22,7 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to add controller");
+            logger.LogError(ex, "Failed to get products by category");
 
             return BadRequest();
         }
@@ -90,16 +90,11 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
             
             return Ok();
         }
-        catch (ArgumentOutOfRangeException ex)
+        catch (KeyNotFoundException ex)
         {
-            if (ex.ParamName == nameof(id))
-            {
-                return NotFound();
-            }
+            logger.LogDebug(ex, "Unknown product ID passed");
             
-            logger.LogWarning(ex, "Failed to update product entity");
-
-            throw;
+            return NotFound();
         }
         catch (InvalidOperationException ex)
         {
@@ -113,7 +108,11 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        if (!await productsService.DeleteProductAsync(id))
+        try
+        {
+            await productsService.DeleteProductAsync(id);
+        }
+        catch (KeyNotFoundException)
         {
             return NotFound();
         }

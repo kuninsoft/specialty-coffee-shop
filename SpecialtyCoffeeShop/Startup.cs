@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SpecialtyCoffeeShop.Data;
 using SpecialtyCoffeeShop.Data.Repositories;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
+using SpecialtyCoffeeShop.Payment;
 using SpecialtyCoffeeShop.Services;
 
 namespace SpecialtyCoffeeShop;
@@ -27,7 +28,10 @@ public class Startup(IConfiguration configuration)
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+        services.AddSingleton<IPaymentProvider, MockPaymentProvider>();
+
         services.AddTransient<IProductsService, ProductsService>();
+        services.AddTransient<ICheckoutService, CheckoutService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

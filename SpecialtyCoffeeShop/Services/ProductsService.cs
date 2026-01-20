@@ -87,7 +87,7 @@ public class ProductsService(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnv
 
         if (product is null)
         {
-            throw new ArgumentOutOfRangeException(nameof(id));
+            throw new KeyNotFoundException();
         }
         
         if (!string.IsNullOrWhiteSpace(body.Name))
@@ -138,13 +138,13 @@ public class ProductsService(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnv
         await unitOfWork.SaveChangesAsync();
     }
 
-    public async Task<bool> DeleteProductAsync(int id)
+    public async Task DeleteProductAsync(int id)
     {
         Product product = await unitOfWork.Products.GetByIdAsync(id);
 
         if (product is null)
         {
-            return false;
+            throw new KeyNotFoundException();
         }
         
         bool deletionResult = await unitOfWork.Products.DeleteById(id);
@@ -153,8 +153,6 @@ public class ProductsService(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnv
         {
             DeleteImage(product.PhotoFilename);
         }
-        
-        return deletionResult;
     }
 
     private async Task<string> SaveImage(IFormFile image)
