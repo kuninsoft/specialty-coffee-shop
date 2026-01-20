@@ -45,7 +45,7 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
 
     // POST api/<ProductsController>
     [HttpPost]
-    public async Task<IActionResult> Post([FromForm] AddProductDto body, [FromForm] IFormFile image)
+    public async Task<IActionResult> Post([FromForm] AddProductDto body, IFormFile image)
     {
         if (body.Price < body.Discount)
         {

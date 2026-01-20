@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SpecialtyCoffeeShop.Data;
 using SpecialtyCoffeeShop.Data.Repositories;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
+using SpecialtyCoffeeShop.Models;
 using SpecialtyCoffeeShop.Payment;
 using SpecialtyCoffeeShop.Services;
 
@@ -16,9 +18,23 @@ public class Startup(IConfiguration configuration)
         services.AddControllers();
         services.AddOpenApi();
         services.AddLogging();
+
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = "SpecialtyCoffeeShop.Auth";
+                    options.Cookie.HttpOnly = true;
+                    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+                    options.Cookie.SameSite = SameSiteMode.Lax;
+                    
+                    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                    options.SlidingExpiration = true;
+                });
         
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        
+        services.Configure<AdminCredentials>(Configuration.GetSection("AdminCredentials"));
 
         services.AddDbContext<AppDbContext>(options =>
             options.UseInMemoryDatabase(

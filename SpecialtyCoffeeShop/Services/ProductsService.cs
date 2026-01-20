@@ -153,6 +153,8 @@ public class ProductsService(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnv
         {
             DeleteImage(product.PhotoFilename);
         }
+        
+        await unitOfWork.SaveChangesAsync();
     }
 
     private async Task<string> SaveImage(IFormFile image)
