@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SpecialtyCoffeeShop.Models.Dto;
+using SpecialtyCoffeeShop.Models.ProductsDto;
 using SpecialtyCoffeeShop.Models.RequestDto;
 using SpecialtyCoffeeShop.Services;
 

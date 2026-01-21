@@ -1,6 +1,6 @@
 using SpecialtyCoffeeShop.Data.Entities;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
-using SpecialtyCoffeeShop.Models.Dto;
+using SpecialtyCoffeeShop.Models.CheckoutDto;
 using SpecialtyCoffeeShop.Models.RequestDto;
 using SpecialtyCoffeeShop.Payment;
 

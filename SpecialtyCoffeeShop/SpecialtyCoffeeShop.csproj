@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Models\RequestDto\" />
       <Folder Include="wwwroot\" />
     </ItemGroup>
 

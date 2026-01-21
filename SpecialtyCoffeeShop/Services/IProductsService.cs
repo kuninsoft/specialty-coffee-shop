@@ -1,4 +1,4 @@
-using SpecialtyCoffeeShop.Models.Dto;
+using SpecialtyCoffeeShop.Models.ProductsDto;
 using SpecialtyCoffeeShop.Models.RequestDto;
 
 namespace SpecialtyCoffeeShop.Services;

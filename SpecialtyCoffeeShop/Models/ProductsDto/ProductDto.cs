@@ -1,6 +1,6 @@
 using SpecialtyCoffeeShop.Data.Entities;
 
-namespace SpecialtyCoffeeShop.Models.Dto;
+namespace SpecialtyCoffeeShop.Models.ProductsDto;
 
 public record ProductDto(
     int Id, 

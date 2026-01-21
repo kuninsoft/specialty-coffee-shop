@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SpecialtyCoffeeShop.Models.Dto;
+using SpecialtyCoffeeShop.Models.CheckoutDto;
 using SpecialtyCoffeeShop.Models.RequestDto;
 using SpecialtyCoffeeShop.Services;
 

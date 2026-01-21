@@ -1,4 +1,4 @@
-namespace SpecialtyCoffeeShop.Models.Dto;
+namespace SpecialtyCoffeeShop.Models.ProductsDto;
 
 public record CatalogDto(
     ICollection<ProductSummaryDto> Products);

@@ -1,4 +1,4 @@
-namespace SpecialtyCoffeeShop.Models.Dto;
+namespace SpecialtyCoffeeShop.Models.CheckoutDto;
 
 public class OrderDetailsDto
 {

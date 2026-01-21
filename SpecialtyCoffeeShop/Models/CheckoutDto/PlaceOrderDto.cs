@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SpecialtyCoffeeShop.Models.RequestDto;
+namespace SpecialtyCoffeeShop.Models.CheckoutDto;
 
 public class PlaceOrderDto
 {

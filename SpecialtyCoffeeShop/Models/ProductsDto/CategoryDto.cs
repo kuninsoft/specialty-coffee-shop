@@ -1,4 +1,4 @@
-namespace SpecialtyCoffeeShop.Models.RequestDto;
+namespace SpecialtyCoffeeShop.Models.ProductsDto;
 
 public enum CategoryDto
 {

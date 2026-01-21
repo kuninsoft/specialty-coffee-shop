@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using SpecialtyCoffeeShop.Data.Entities;
 
-namespace SpecialtyCoffeeShop.Models.RequestDto;
+namespace SpecialtyCoffeeShop.Models.ProductsDto;
 
 public class AddProductDto
 {
