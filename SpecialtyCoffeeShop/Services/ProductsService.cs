@@ -29,6 +29,7 @@ public class ProductsService(IUnitOfWork unitOfWork, IWebHostEnvironment hostEnv
                     product.Price,
                     product.CurrentDiscount,
                     product.Category,
+                    product.Stock,
                     product.PhotoFilename
                 )).ToList());
     }

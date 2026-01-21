@@ -8,4 +8,5 @@ public record ProductSummaryDto(
     decimal Price,
     decimal Discount,
     Category Category,
+    int Stock,
     string PhotoFilename);
