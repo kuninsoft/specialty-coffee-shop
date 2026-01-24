@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using SpecialtyCoffeeShop.Data;
-using SpecialtyCoffeeShop.Data.Repositories;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
 using SpecialtyCoffeeShop.Models;
 using SpecialtyCoffeeShop.Payment;
@@ -61,6 +60,9 @@ public class Startup(IConfiguration configuration)
         
         app.UseHttpsRedirection();
         
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+        
         app.UseRouting();
         
         app.UseAuthentication();
@@ -69,6 +71,7 @@ public class Startup(IConfiguration configuration)
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
+            endpoints.MapFallbackToFile("index.html");
         });
     }
 }

@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using SpecialtyCoffeeShop.Models;
@@ -23,8 +24,8 @@ public class AuthController : ControllerBase
     }
     
     // POST api/<AuthController>/Login
-    [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromForm] AuthDto request)
+    [HttpPost(nameof(Login))]
+    public async Task<IActionResult> Login([FromBody] AuthDto request)
     {
         if (!ModelState.IsValid
             || request.Username != _credentialsOptions.Value.Username
@@ -48,11 +49,19 @@ public class AuthController : ControllerBase
     }
 
     // POST api/<AuthController>/Logout
-    [HttpPost("Logout")]
+    [HttpPost(nameof(Logout))]
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         
+        return Ok();
+    }
+    
+    // GET api/<AuthController>/Check
+    [Authorize]
+    [HttpGet(nameof(Check))]
+    public IActionResult Check()
+    {
         return Ok();
     }
 }

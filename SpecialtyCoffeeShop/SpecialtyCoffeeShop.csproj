@@ -16,8 +16,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Models\RequestDto\" />
       <Folder Include="wwwroot\" />
+      <Folder Include="wwwroot\product-photos\" />
     </ItemGroup>
 
     <ItemGroup>
