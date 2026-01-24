@@ -1,5 +1,7 @@
 # Specialty Coffee Shop – Backend
 
+Try it here: https://specialty-coffee-shop-evcqgzfygydrajaj.westeurope-01.azurewebsites.net/
+
 ASP.NET Core backend for the Specialty Coffee Shop project.  
 This application provides a REST API for product catalog management, cart calculation, checkout, and admin authentication, and serves an Angular single-page application from `wwwroot` in production.
 
