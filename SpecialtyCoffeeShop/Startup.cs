@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using SpecialtyCoffeeShop.Caching;
 using SpecialtyCoffeeShop.Data;
 using SpecialtyCoffeeShop.Data.UnitOfWork;
 using SpecialtyCoffeeShop.Models;
@@ -17,6 +18,8 @@ public class Startup(IConfiguration configuration)
         services.AddControllers();
         services.AddOpenApi();
         services.AddLogging();
+
+        services.AddMemoryCache();
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -47,6 +50,8 @@ public class Startup(IConfiguration configuration)
 
         services.AddTransient<IProductsService, ProductsService>();
         services.AddTransient<ICheckoutService, CheckoutService>();
+        
+        services.AddTransient<ICatalogCache, CatalogCache>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

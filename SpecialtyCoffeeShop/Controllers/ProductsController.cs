@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SpecialtyCoffeeShop.Caching;
 using SpecialtyCoffeeShop.Models.ProductsDto;
 using SpecialtyCoffeeShop.Models.RequestDto;
 using SpecialtyCoffeeShop.Services;
@@ -9,16 +10,26 @@ namespace SpecialtyCoffeeShop.Controllers;
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ProductsController(IProductsService productsService, ILogger<ProductsController> logger) : ControllerBase
+public class ProductsController(IProductsService productsService, ICatalogCache catalogCache, 
+    ILogger<ProductsController> logger) : ControllerBase
 {
     // GET api/<ProductsController>
     [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<CatalogDto>> Get([FromQuery] CategoryDto category = CategoryDto.All)
     {
+        if (catalogCache.GetCatalogOrDefault(category) is { } cachedCatalog)
+        {
+            return cachedCatalog;
+        }
+        
         try
         {
-            return await productsService.GetProductsByCategoryAsync(category);
+            CatalogDto catalog = await productsService.GetProductsByCategoryAsync(category);
+            
+            catalogCache.SetCatalog(catalog, category);
+
+            return catalog;
         }
         catch (Exception ex)
         {
@@ -33,6 +44,11 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> Get(int id)
     {
+        if (catalogCache.GetProductOrDefault(id) is { } cachedProduct)
+        {
+            return cachedProduct;
+        }
+        
         ProductDto product = await productsService.GetProductOrDefaultAsync(id);
 
         if (product is null)
@@ -65,6 +81,8 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
         }
 
         await productsService.AddProductAsync(body, image);
+        
+        catalogCache.InvalidateCatalog();
 
         return Created();
     }
@@ -87,6 +105,9 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
         try
         {
             await productsService.UpdateProductAsync(id, body);
+            
+            catalogCache.InvalidateProduct(id);
+            catalogCache.InvalidateCatalog();
             
             return Ok();
         }
@@ -111,6 +132,9 @@ public class ProductsController(IProductsService productsService, ILogger<Produc
         try
         {
             await productsService.DeleteProductAsync(id);
+            
+            catalogCache.InvalidateProduct(id);
+            catalogCache.InvalidateCatalog();
         }
         catch (KeyNotFoundException)
         {

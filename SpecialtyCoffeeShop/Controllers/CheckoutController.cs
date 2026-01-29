@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
+using SpecialtyCoffeeShop.Caching;
 using SpecialtyCoffeeShop.Models.CheckoutDto;
-using SpecialtyCoffeeShop.Models.RequestDto;
 using SpecialtyCoffeeShop.Services;
 
 namespace SpecialtyCoffeeShop.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class CheckoutController(ICheckoutService checkoutService, ILogger<CheckoutController> logger) : ControllerBase
+public class CheckoutController(ICheckoutService checkoutService, ICatalogCache catalogCache,
+    ILogger<CheckoutController> logger) : ControllerBase
 {
     // POST api/<CheckoutController>/CalculateOrderDetails
     [HttpPost(nameof(CalculateOrderDetails))]
@@ -65,7 +66,9 @@ public class CheckoutController(ICheckoutService checkoutService, ILogger<Checko
             OrderInfoDto orderInfo = await checkoutService.PlaceOrderAsync(order);
 
             logger.LogInformation("Order {id} success", orderInfo.Id);
-
+            
+            InvalidateAffectedProductsCache(order.Items);
+            
             return orderInfo;
         }
         catch (KeyNotFoundException ex)
@@ -80,5 +83,15 @@ public class CheckoutController(ICheckoutService checkoutService, ILogger<Checko
 
             return BadRequest("Not enough stock");
         }
+    }
+
+    private void InvalidateAffectedProductsCache(IEnumerable<OrderItemDto> orderItems)
+    {
+        foreach (OrderItemDto item in orderItems)
+        {
+            catalogCache.InvalidateProduct(item.Id);
+        }
+        
+        catalogCache.InvalidateCatalog();
     }
 }
